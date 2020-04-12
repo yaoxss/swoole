@@ -1,7 +1,7 @@
 <?php
 //
 $client = new swoole_client(SWOOLE_SOCK_TCP, SWOOLE_SOCK_SYNC);
-var_dump($client->connect('192.168.2.194',6666));
+var_dump($client->connect('127.0.0.1',6666));
 
 sleep(1000);
 

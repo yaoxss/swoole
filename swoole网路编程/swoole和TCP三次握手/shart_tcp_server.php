@@ -1,7 +1,7 @@
 <?php
 //
 
-$server = new Swoole\Server("192.168.2.194",6666,SWOOLE_BASE);
+$server = new Swoole\Server("127.0.0.1",6666,SWOOLE_BASE);
 
 $server->set([
     'worker_num' => 1,
