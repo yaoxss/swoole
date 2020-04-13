@@ -10,7 +10,7 @@ $name = time();
 echo "连接状态".$res."\n";
 
 while (true){
-    $client->send($name.'每隔1秒向服务器发送-'.data("H:m:s"));
+    $client->send($name.'每隔1秒向服务器发送-'.date("H:m:s"));
     sleep(5);
 }
 
