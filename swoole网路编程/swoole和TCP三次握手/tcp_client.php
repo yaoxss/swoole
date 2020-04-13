@@ -5,9 +5,16 @@ $client = new swoole_client(SWOOLE_SOCK_TCP, SWOOLE_SOCK_SYNC);
 
 $res = $client->connect('127.0.0.1',6666);
 
+$name = time();
+
 echo "连接状态".$res."\n";
 
-sleep(1000);
+while (true){
+    $client->send($name.'每隔1秒向服务器发送-'.data("H:m:s"));
+    sleep(5);
+}
+
+
 
 /*$i = 0;
 while(true){

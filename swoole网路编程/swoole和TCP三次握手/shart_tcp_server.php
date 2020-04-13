@@ -11,13 +11,14 @@ $server->set([
 
 // 监听连接进入事件
 $server->on('connect', function ($server, $fd){
-    var_dump("Client:Connect.\n");
-    sleep(1000);
+    echo "进入监听事件";
+//    var_dump("Client:Connect.\n");
+//    sleep(1000);
 });
 
 // 监听数据接收事件
 $server->on('receive', function ($server, $fd, $reactor_id, $data){
-    var_dump($data);
+    var_dump("服务器接收到了你的数据：".$data);
 });
 
 // 监听连接关闭事件
