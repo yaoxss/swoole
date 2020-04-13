@@ -18,7 +18,9 @@ $server->on('connect', function ($server, $fd){
 
 // 监听数据接收事件
 $server->on('receive', function ($server, $fd, $reactor_id, $data){
-    var_dump("服务器接收到了你的数据：".$data);
+    var_dump("服务器接收到了客户端的数据：".$data."\n");
+    // 服务器向客户端发送
+    $server->send($fd, '我接收到了你的数据：'.$data);
 });
 
 // 监听连接关闭事件
