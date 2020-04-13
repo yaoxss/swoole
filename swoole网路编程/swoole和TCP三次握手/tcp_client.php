@@ -3,7 +3,7 @@
 
 $client = new swoole_client(SWOOLE_SOCK_TCP, SWOOLE_SOCK_SYNC);
 
-$res = $client->connect('127.0.0.1',6666)
+$res = $client->connect('127.0.0.1',6666);
 
 echo "连接状态".$res."\n";
 
