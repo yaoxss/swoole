@@ -10,8 +10,10 @@ $name = time();
 echo "连接状态".$res."\n";
 
 while (true){
-    $client->send($name.'每隔5秒向服务器发送-'.date("H:m:s"));
     sleep(5);
+    $client->send($name.'每隔5秒向服务器发送-'.date("H:m:s"));
+    $str = $client->recv();
+    echo $str."\n";
 }
 
 
