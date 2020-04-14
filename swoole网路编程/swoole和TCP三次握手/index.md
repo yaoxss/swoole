@@ -41,3 +41,23 @@
     ＦＰＭ下所有的连接都是短连接（pconnect除外）
     单例也是短连接 
     
+### 长连接常见问题—连接失效
+    1、redis:timeout（Error whlie reading line from server）
+    2、mysql:wait_timeout & interactive_timeout(has gone away)
+    
+###  解决常连接失效的问题
+    方案1：用的时候重连。（缺点server断开后，占用的连接资源（内存、端口、句柄)，被动断开close wait永远不会消失，而且面临短连接的问题）
+    方案2：定时发心跳维持连接。  
+        $server->set([
+            'warker_num' => 1,
+            'open_tcp_keepalive' => 1,
+            // 缺点客户端与服务端是通过中间件传输的可能会失效
+            // 'tcp_keepidle' => 4, // 4s没有数据传输就进行检测
+            // 'tcp_keepinterval' => 1, // 1s探测一次
+            // 'tcp_keepcount' => 5, // 探测的次数，超过5次后还没回包close此连接
+            
+            // 客户端每隔几秒定时给服务端发包(数据)
+            'heartbeat_check_interval' => 1, // 1s探测一次
+            'heartbeat_idle_time' => 5, // 5s未发送数据包就close此连接
+            
+        ]);
