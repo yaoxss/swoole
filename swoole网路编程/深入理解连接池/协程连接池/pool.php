@@ -78,7 +78,7 @@ Co\run(function (){
         // (function(){})();
         go(function(){
             $pool = Pool::i();
-            $redis = $pool->get();
+            $redis = $pool->get(1.0);
             defer(function () use ($pool, $redis){
                 $pool->put($redis);
             });
