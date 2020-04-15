@@ -3,7 +3,7 @@
 $socket = new CO\Socket(AF_INET, SOCK_STREAM, 0);
 
 go(function () use ($socket){
-    $socket->connect('192.168.2.194', 6666);
+    $socket->connect('127.0.0.1', 6666);
 
     $i = 0;
     while($i++ < 1000){
