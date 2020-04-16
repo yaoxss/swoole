@@ -18,6 +18,7 @@ class Pool{
     protected $channel;
 
     public function __construct(int $size = 100){
+        // 通道，用于协程间通讯，支持多生产者协程和多消费者协程。底层自动实现了协程的切换和调度。
         $this->channel = new Swoole\Coroutine\Channel($size);
 
         while($size--) {
@@ -32,6 +33,8 @@ class Pool{
         }
     }
 
+// 调用不存在的方法时会调用该方法
+// ，第一个参数 $function_name 会自动接收不存在的方法名，第二个 $args 则以数组的方式接收不存在方法的多个参数。
 //    public function __call(string $name, ...$args)
 //    {
 //        $redis = $this->get();
@@ -45,11 +48,15 @@ class Pool{
 
     public function put(Swoole\Coroutine\Redis $redis) : void
     {
+        // 向通道中写入数据。
         $this->channel->push($redis);
     }
 
+    // $timeout 设置超时时间
     public function get(float $timeout): Swoole\Coroutine\Redis
     {
+        // 从通道中读取数据
+        // 多个生产者协程同时 push 时，底层自动进行排队，按照顺序逐个 resume 这些生产者协程
         return $this->channel->pop($timeout) ?: null;
     }
 
@@ -58,14 +65,6 @@ class Pool{
         $this->channel = null;
     }
 }
-
-//$pool = Pool::i();
-//$redis = $pool->get();
-//$value = $redis->get('foo');
-//if($value === false){
-//    throw new RangeException($redis->errMsg, $redis->errCode);
-//}
-//$pool->put($redis);
 
 //$value = Pool::i()->get('foo');
 //var_dump($value);
@@ -78,7 +77,7 @@ Co\run(function (){
         // (function(){})();
         go(function(){
             $pool = Pool::i();
-            $redis = $pool->get(1.0);
+            $redis = $pool->get(100);
             defer(function () use ($pool, $redis){
                 $pool->put($redis);
             });
@@ -90,7 +89,6 @@ Co\run(function (){
             if (assert($value === 'bar')) {
                 $count++;
             }
-
 
             // 结束的时候调用defer函数
         });
