@@ -7,5 +7,6 @@
     3、传输效率问题
     
 ### 进程间的连接池
-    php-cp
+    https://github.com/swoole/php-cp
+    php-cp 安装路径/tmp
     
