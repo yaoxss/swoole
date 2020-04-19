@@ -8,5 +8,9 @@
     
 ### 进程间的连接池
     https://github.com/swoole/php-cp
-    php-cp 安装路径/tmp
+    php-cp 安装路径/tmp (未完成)
     
+### 一个简单的支持单连接并发的协议结构
+    大字节和小字节
+    length(32) type(16) id(32) body(...)
+    二进制协议的好处
