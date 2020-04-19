@@ -6,12 +6,6 @@ use Swoole\Coroutine\Socket;
 
 Coroutine\run(function () {
     $server = new Socket(AF_INET, SOCK_DGRAM, IPPROTO_IP);
-    $server->setProtocol([
-        'open_length_check' => true,
-        'package_length_type' => 'N',
-        'package_length_offset' => 0,
-        'package_body_offset' => Protocol::HEAD_LENGTH
-    ]);
 
     if (!$server->bind('127.0.0.1', 6666)) {
         throw new Exception('Bind failed: ' . $server->errMsg);
@@ -25,6 +19,12 @@ Coroutine\run(function () {
         if(!$client){
             throw new Exception('Accept failed: ' . $server->errMsg);
         }
+        $server->setProtocol([
+            'open_length_check' => true,
+            'package_length_type' => 'N',
+            'package_length_offset' => 6,
+            'package_body_offset' => Protocol::HEAD_LENGTH
+        ]);
         go(function () use ($client) {
             while (true) {
                 $packet = $client->recvPacket();
