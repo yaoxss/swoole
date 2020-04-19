@@ -44,6 +44,9 @@ class Pool{
 //        }
 //        $redis->put($redis);
 //        return $value;
+--with-php-config /www/server/php/74/src/scripts/php-config
+
+
 //    }
 
     public function put(Swoole\Coroutine\Redis $redis) : void
