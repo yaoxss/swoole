@@ -10,7 +10,7 @@ Coroutine\run(function () {
     if (!$server->bind('127.0.0.1', 6666)) {
         throw new Exception('Bind failed: ' . $server->errMsg);
     }
-    if (!$server->listen()) {
+    if (!$server->listen('127.0.0.1', 6666)) {
         throw new Exception('Bind failed: ' . $server->errMsg);
     }
 
