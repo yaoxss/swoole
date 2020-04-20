@@ -7,7 +7,7 @@ use Swoole\Coroutine\Socket;
 Coroutine\run(function () {
     $server = new Socket(AF_INET, SOCK_DGRAM, IPPROTO_IP);
 
-    if (!$server->bind('127.0.0.1', 9501)) {
+    if (!$server->bind('127.0.0.1', 6666)) {
         throw new Exception('Bind failed: ' . $server->errMsg);
     }
     if (!$server->listen()) {

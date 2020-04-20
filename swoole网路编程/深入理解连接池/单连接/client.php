@@ -7,7 +7,7 @@ use Swoole\Coroutine\Socket;
 
 Coroutine\run(function () {
     $client = new Socket(AF_INET, SOCK_DGRAM, IPPROTO_IP);
-    $connected = $client->connect('127.0.0.1', 9501);
+    $connected = $client->connect('127.0.0.1', 6666);
     if (!$connected) {
         throw new Exception('Connect failed: '. $client->errMsg);
     }
