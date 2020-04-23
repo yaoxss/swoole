@@ -12,3 +12,8 @@
     协程能极大的提高并发，但是有时候并发高了不一定是好事(最理想的并发是能处理多少并发就来多少并发)
     
 ### 如何正确的搭建ＨＴＴＰ服务
+
+### 安装ab(apache benchmark)
+    yum -y install httpd-tools
+    测试：ab -help
+    
