@@ -3,7 +3,7 @@
 use Swoole\Http\Request;
 use Swoole\Http\Response;
 
-$process = new Swoole\Process(function () {
+$process = new Swoole\Process(function (Swoole\Process $process) {
     $server = new Swoole\Http\Server('127.0.0.1',9501,SWOOLE_BASE);
     $server->set([
         'log_file' => '/dev/null',
