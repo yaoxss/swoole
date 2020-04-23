@@ -16,7 +16,7 @@ $process = new Swoole\Process(function () {
         $process->write('1');
     });
 
-    $server->on('requset', function (Request $request, Response $response) use($server){
+    $server->on('request', function (Request $request, Response $response) use($server){
         try{
             $redis = new Redis;
             $redis->connect('127.0.0.1', 6379);
