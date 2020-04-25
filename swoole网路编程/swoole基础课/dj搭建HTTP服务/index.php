@@ -48,7 +48,7 @@ if($process->start()){
     });
     // 回收结束运行的子进程。
     $process->read(1);
-    System('ab -c 256 -n 10000 -k http://127.0.0.1:9501/ 2&1');
+    System('ab -c 256 -n 10000 -k http://127.0.0.1:9501/');
 }
 
 
