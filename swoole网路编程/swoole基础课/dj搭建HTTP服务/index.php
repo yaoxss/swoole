@@ -3,7 +3,9 @@
 use Swoole\Http\Request;
 use Swoole\Http\Response;
 
+// swoole提供的进程管理模块， 子进程创建成功后要执行的函数。
 $process = new Swoole\Process(function (Swoole\Process $process) {
+    // 创建一个HTTP服务器
     $server = new Swoole\Http\Server('127.0.0.1',9501,SWOOLE_BASE);
     $server->set([
         'log_file' => '/dev/null',
@@ -12,10 +14,13 @@ $process = new Swoole\Process(function (Swoole\Process $process) {
 //        'hook_flags' => SWOOLE_HOOK_ALL
     ]);
 
+    // 注册事件回调函数
     $server->on('workerStart', function () use($process, $server){
+        // 向管道写入数据
         $process->write('1');
     });
 
+    //request 在收到一个完整的 HTTP 请求后，会回调此函数。回调函数共有 2 个参数：
     $server->on('request', function (Request $request, Response $response) use($server){
         try{
             $redis = new Redis;
@@ -30,13 +35,18 @@ $process = new Swoole\Process(function (Swoole\Process $process) {
             $response->end();
         }
     });
+    // 启动 HTTP 服务器
     $server->start();
 });
+
+// $process->start() 执行 fork 系统调用，启动子进程。
 if($process->start()){
     register_shutdown_function(function () use ($process) {
+        // 向指定 pid 进程发送信号。
         $process::kill($process->pid);
         $process::wait();
     });
+    // 回收结束运行的子进程。
     $process->read(1);
     System('ab -c 256 -n 10000 -k http://127.0.0.1:9501/ 2&1');
 }
