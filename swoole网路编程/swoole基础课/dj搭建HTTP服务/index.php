@@ -11,7 +11,8 @@ $process = new Swoole\Process(function (Swoole\Process $process) {
         'log_file' => '/dev/null',
         'log_level' => SWOOLE_LOG_INFO,
         'worker_rum' => swoole_cpu_num() * 2,
-//        'hook_flags' => SWOOLE_HOOK_ALL
+        // 将所有同步堵塞的方法，替换成异步非堵塞的协程调度
+        'hook_flags' => SWOOLE_HOOK_ALL
     ]);
 
     // 注册事件回调函数
