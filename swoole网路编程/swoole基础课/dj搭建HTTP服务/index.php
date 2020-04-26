@@ -119,7 +119,7 @@ class RedisPool{
 
     public function close(): void
     {
-        $this->pool->close():
+        $this->pool->close();
         $this->pool = null;
     }
 }
