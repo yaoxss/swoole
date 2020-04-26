@@ -17,6 +17,7 @@ $process = new Swoole\Process(function (Swoole\Process $process) {
 
     // 注册事件回调函数
     $server->on('workerStart', function () use($process, $server){
+        $server->pool = new RedisQueue();
         // 向管道写入数据
         $process->write('1');
     });
@@ -24,12 +25,14 @@ $process = new Swoole\Process(function (Swoole\Process $process) {
     //request 在收到一个完整的 HTTP 请求后，会回调此函数。回调函数共有 2 个参数：
     $server->on('request', function (Request $request, Response $response) use($server){
         try{
-            $redis = new Redis;
-            $redis->connect('127.0.0.1', 6379);
+            $redis = $server->pool->get();
+//            $redis = new Redis;
+//            $redis->connect('127.0.0.1', 6379);
             $greeter = $redis->get('key');
             if(!$greeter){
                 throw new RedisException('get data failed');
             }
+            $server->pool->put($redis);
             $response->end("<h1>{$greeter}</h1>");
         }catch(Throwable $throwable){
             $response->status(500);
@@ -50,6 +53,36 @@ if($process->start()){
     // 回收结束运行的子进程。
     $process->read(1);
     System('ab -c 256 -n 10000 -k http://127.0.0.1:9501/');
+}
+
+class RedisQueue{
+    protected $pool;
+
+    public function __construct()
+    {
+        // 创建一个队列
+        $this->pool = new SplQueue();
+    }
+
+    public function get(): Redis
+    {
+        // 队列等于null的时候创建一个连接
+        if($this->pool->isEmpty()){
+            $redis = new \Redis();
+            $redis->connect('127.0.0.1',6379);
+            return $redis;
+        }
+        return $this->pool->dequeue();
+    }
+
+    public function put(Redis $redis){
+        $this->pool->dequeue($redis);
+    }
+
+    public function close(): void
+    {
+        $this->pool = null;
+    }
 }
 
 
