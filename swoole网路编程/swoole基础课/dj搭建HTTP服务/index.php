@@ -26,6 +26,7 @@ $process = new Swoole\Process(function (Swoole\Process $process) {
     //request 在收到一个完整的 HTTP 请求后，会回调此函数。回调函数共有 2 个参数：
     $server->on('request', function (Request $request, Response $response) use($server){
         try{
+            // RedisPool 在使用过程中发现没有连接的时候，就会把这个协程挂起(让出了控制权，让别的连接继续运行)
             $redis = $server->pool->get();
 //            $redis = new Redis;
 //            $redis->connect('127.0.0.1', 6379);
