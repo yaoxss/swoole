@@ -125,7 +125,7 @@ class RedisPool{
     }
 }
 
-//[root@iZ2zebn3hsgwulgeqhZ dj搭建HTTP服务]# php index.php
+
 //This is ApacheBench, Version 2.3 <$Revision: 1430300 $>
 //Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
 //Licensed to The Apache Software Foundation, http://www.apache.org/
@@ -152,33 +152,34 @@ class RedisPool{
 //Document Length:        12 bytes
 //
 //Concurrency Level:      256
-//Time taken for tests:   2.202 seconds
+//Time taken for tests:   0.724 seconds
 //Complete requests:      10000
 //Failed requests:        0
 //Write errors:           0
 //Keep-Alive requests:    10000
 //Total transferred:      1650000 bytes
 //HTML transferred:       120000 bytes
-//Requests per second:    4542.09 [#/sec] (mean)
-//        Time per request:       56.362 [ms] (mean)
-//Time per request:       0.220 [ms] (mean, across all concurrent requests)
-//Transfer rate:          731.88 [Kbytes/sec] received
+//Requests per second:    13809.62 [#/sec] (mean)
+//        Time per request:       18.538 [ms] (mean)
+//Time per request:       0.072 [ms] (mean, across all concurrent requests)
+//Transfer rate:          2225.18 [Kbytes/sec] received
 //
 //Connection Times (ms)
 //              min  mean[+/-sd] median   max
-//Connect:        0    3  51.9      0    1001
-//Processing:     6   53  21.6     50     228
-//Waiting:        1   53  21.6     50     228
-//Total:          6   56  60.1     50    1141
+//Connect:        0    0   0.8      0       7
+//Processing:     7   15   2.4     14      27
+//Waiting:        1   15   2.4     14      27
+//Total:          8   15   2.7     14      32
 //
 //Percentage of the requests served within a certain time (ms)
-//  50%     50
-//  66%     51
-//  75%     52
-//  80%     53
-//  90%     54
-//  95%     62
-//  98%    174
-//  99%    176
-// 100%   1141 (longest request)
+//  50%     14
+//  66%     14
+//  75%     18
+//  80%     18
+//  90%     18
+//  95%     19
+//  98%     21
+//  99%     25
+// 100%     32 (longest request)
+
 
