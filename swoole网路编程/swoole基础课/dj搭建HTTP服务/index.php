@@ -17,7 +17,8 @@ $process = new Swoole\Process(function (Swoole\Process $process) {
 
     // 注册事件回调函数
     $server->on('workerStart', function () use($process, $server){
-        $server->pool = new RedisQueue();
+//        $server->pool = new RedisQueue();
+        $server->pool = new RedisPool(64);
         // 向管道写入数据
         $process->write('1');
     });
@@ -85,6 +86,43 @@ class RedisQueue{
     }
 }
 
+class RedisPool{
+    protected $pool;
+
+    public function __construct(int $size = 100)
+    {
+        $this->pool = new \Swoole\Coroutine\Channel($size);
+        // 在一开始的时候创建redis连接数
+        for ($i = 0; $i < $size; $i++) {
+            while (true) {
+                try{
+                    $redis = new \Redis();
+                    $redis->connect('127.0.0.1',6379);
+                    $this->put($redis);
+                    break;
+                }catch(\Throwable $throwable){
+                    usleep(1 * 1000);
+                    continue;
+                }
+            }
+        }
+    }
+
+    public function get(): \Redis
+    {
+        return $this->pool->pop();
+    }
+
+    public function put(\Redis $redis){
+        $this->pool->push($redis);
+    }
+
+    public function close(): void
+    {
+        $this->pool->close():
+        $this->pool = null;
+    }
+}
 
 //[root@iZ2zebn3hsgwulgeqhZ dj搭建HTTP服务]# php index.php
 //This is ApacheBench, Version 2.3 <$Revision: 1430300 $>
