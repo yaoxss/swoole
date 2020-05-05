@@ -1,5 +1,9 @@
 ### 查看端口连接的状态
-    netstat -anp|grep 6666
+    [root@iZ2zebn3hulgeqhZ swooleblog]# netstat -lnp|grep 9501
+    tcp        0      0 0.0.0.0:9501            0.0.0.0:*               LISTEN      2398/php    
+    
+### 杀死进程
+    kill -9 2398
     
 ### cat /proc/net/sockstat
     sockets: used 122
@@ -18,3 +22,6 @@
     UDP：inuse：正在使用的UDP套接字数量
     RAW：
     FRAG：使用的IP段数量
+    
+### Linux把程序放后台运行，退出终端仍运行，终止
+    https://blog.csdn.net/shi_tianzhu/article/details/105928261
